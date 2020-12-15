@@ -21,17 +21,17 @@ spring:
   mvc:
     locale: ro
   mail:
-    host: email-smtp.eu-west-1.amazonaws.com
-    port: 587 #  25, 465 or 587
-    # This is Different from AWS_ACCESS_ID and AWS_SECRET_KEY.  Required to generate AWS SES production credentials: https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-credentials.html
-    username: ${AWS_SES_USERNAME}
-    password:  ${AWS_SES_PASSWORD}
+    host: smtp.sendgrid.net
+    port: 587 #  25, 465 ,587 or 2525
+    # Ensure your prod environment has a SENDGRID_API_KEY_B64 populated with the Base64 codede ApiKey for the SendGrid account: https://sendgrid.com/docs/for-developers/sending-email/getting-started-smtp/
+    username: YXBpa2V5
+    password:  ${SENDGRID_API_KEY_B64}
     properties:
       transport:
         protocol: 'smtp'
       mail:
         smtp:
-          auth: true # set the access user/password and change this to true
+          auth: true
           starttls:
             enable: true
   cache:
