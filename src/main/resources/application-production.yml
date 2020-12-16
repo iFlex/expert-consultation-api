@@ -23,7 +23,7 @@ spring:
   mail:
     host: smtp.sendgrid.net
     port: 587 #  25, 465 ,587 or 2525
-    # Ensure your prod environment has a SENDGRID_API_KEY_B64 populated with the Base64 codede ApiKey for the SendGrid account: https://sendgrid.com/docs/for-developers/sending-email/getting-started-smtp/
+    # Ensure your prod environment has a SENDGRID_API_KEY_B64 populated with the Base64 encoded ApiKey for the SendGrid account: https://sendgrid.com/docs/for-developers/sending-email/getting-started-smtp/
     username: YXBpa2V5
     password:  ${SENDGRID_API_KEY_B64}
     properties:
