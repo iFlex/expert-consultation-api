@@ -7,6 +7,7 @@ import com.code4ro.legalconsultation.document.consolidated.model.dto.DocumentCon
 import com.code4ro.legalconsultation.document.consolidated.model.dto.DocumentConsultationDataDto;
 import com.code4ro.legalconsultation.document.consolidated.model.dto.DocumentUserAssignmentDto;
 import com.code4ro.legalconsultation.document.consolidated.model.persistence.DocumentConsolidated;
+import com.code4ro.legalconsultation.document.consolidated.service.DocumentConsolidatedService;
 import com.code4ro.legalconsultation.document.core.service.DocumentService;
 import com.code4ro.legalconsultation.document.export.model.DocumentExportFormat;
 import com.code4ro.legalconsultation.document.metadata.model.dto.DocumentMetadataDto;
@@ -17,26 +18,20 @@ import com.code4ro.legalconsultation.user.model.dto.UserDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/documents")
@@ -45,6 +40,9 @@ public class DocumentController {
 
     private final DocumentService documentService;
     private final DocumentConfigurationService documentConfigurationService;
+
+    @Autowired
+    private final DocumentConsolidatedService documentConsolidatedService;
 
     @ApiOperation(value = "Return document metadata for all documents in the platform",
             response = PageDto.class,
@@ -177,5 +175,13 @@ public class DocumentController {
             @ApiParam(value = "Id of the metadata of the document") @PathVariable("metadataId") UUID id) {
         final DocumentConsultationDataDto consultationData = documentConfigurationService.getConsultationData(id);
         return ResponseEntity.ok(consultationData);
+    }
+
+    @ApiOperation("Get documents wich are currently in consultation")
+    @GetMapping("/consultation")
+    public ResponseEntity<List<DocumentConsolidatedDto>> getDocumentsInConsultation(){
+        return ResponseEntity.ok(documentConsolidatedService.findAll().stream()
+                .filter(x -> x.getDocumentConfiguration().isInConsultation())
+                .collect(Collectors.toList()));
     }
 }
