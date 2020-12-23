@@ -2,7 +2,6 @@ package com.code4ro.legalconsultation.document.consolidated.model.dto;
 
 import com.code4ro.legalconsultation.core.model.dto.BaseEntityDto;
 import com.code4ro.legalconsultation.document.configuration.model.dto.DocumentConfigurationDto;
-import com.code4ro.legalconsultation.document.configuration.model.persistence.DocumentConfiguration;
 import com.code4ro.legalconsultation.document.metadata.model.dto.DocumentMetadataDto;
 import com.code4ro.legalconsultation.document.node.model.dto.DocumentNodeDto;
 import com.code4ro.legalconsultation.user.model.dto.UserDto;

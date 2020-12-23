@@ -15,7 +15,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.time.Instant;
 import java.util.Date;
 
 @Entity
@@ -51,9 +50,4 @@ public class DocumentConfiguration extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     private DocumentConsolidated documentConsolidated;
-
-    public boolean isInConsultation(){
-        Date now = Date.from(Instant.now());
-        return now.before(consultationDeadline) && now.after(consultationStartDate) && !excludedFromConsultation;
-    }
 }
